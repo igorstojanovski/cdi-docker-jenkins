@@ -1,0 +1,16 @@
+FROM ubuntu:14.04
+
+RUN apt-get update && apt-get install -y wget
+
+RUN wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u65-b17/jdk-8u65-linux-x64.tar.gz
+
+RUN tar -xzf jdk-8u65-linux-x64.tar.gz
+
+# install Oracle Java JDK 8
+RUN mkdir -p /usr/lib/jvm
+RUN mv jdk1.8.0_65 /usr/lib/jvm/java-8-oracle
+RUN rm jdk-8u65-linux-x64.tar.gz
+RUN chown root:root -R /usr/lib/jvm/java-8-oracle
+RUN (update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-8-oracle/jre/bin/java 1 && update-alternatives --set java /usr/lib/jvm/java-8-oracle/jre/bin/java)
+RUN (update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-8-oracle/bin/javac 1 && update-alternatives --set javac /usr/lib/jvm/java-8-oracle/bin/javac)
+RUN (update-alternatives --install /usr/bin/javaws javaws /usr/lib/jvm/java-8-oracle/bin/javaws 1 && update-alternatives --set javaws /usr/lib/jvm/java-8-oracle/bin/javaws)
